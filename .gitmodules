@@ -1,3 +1,9 @@
 [submodule "gateway"]
 	path = gateway
 	url = https://github.com/My-First-Microservice/client-gateway.git
+[submodule "orders"]
+	path = orders
+	url = https://github.com/My-First-Microservice/orders-ms.git
+[submodule "products"]
+	path = products
+	url = https://github.com/My-First-Microservice/products-ms.git
