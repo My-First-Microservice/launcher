@@ -1,0 +1,52 @@
+services:
+  # Nats
+  nats-server:
+    image: nats
+    ports:
+      - 8222:8222
+
+  # Client Gateway
+  client-gateway:
+    build: ./gateway
+    ports:
+      - ${CLIENT_GATEWAY_PORT}:${CLIENT_GATEWAY_PORT}
+    volumes:
+      - ./gateway/src:/usr/src/app/src
+    command: npm run dev
+    environment:
+      - PORT=${CLIENT_GATEWAY_PORT}
+      - NATS_SERVERS=nats://nats-server:4222
+
+  # Products Microservice
+  products-ms:
+    build: ./products
+    volumes:
+      - ./products/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3001
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=${PRODUCTS_MS_DATABASE_URL}
+
+  # Orders Microservice Database
+  orders-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=orders
+      - POSTGRES_PASSWORD=12345
+    volumes:
+      - ./orders/postgres:/var/lib/postgresql/data
+
+  # Orders Microservice
+  orders-ms:
+    build: ./orders
+    volumes:
+      - ./orders/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3002
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=${ORDERS_MS_DATABASE_URL}
+    depends_on:
+      - orders-db
