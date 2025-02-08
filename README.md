@@ -4,8 +4,9 @@
 
 1. Clone the repository
 2. Setup your environment variables based on the `.env.template`
-3. Open Docker Desktop and execute `docker compose up -d`
-4. That's all, you should have all the microservices running.
+3. Update and download the git submodules `git submodule update --init --recursive`
+4. Open Docker Desktop and execute `docker compose up -d`
+5. That's all, you should have all the microservices running.
 
 ## Gist
 
