@@ -7,3 +7,6 @@
 [submodule "products"]
 	path = products
 	url = https://github.com/My-First-Microservice/products-ms.git
+[submodule "payments"]
+	path = payments
+	url = https://github.com/My-First-Microservice/payments-ms.git
