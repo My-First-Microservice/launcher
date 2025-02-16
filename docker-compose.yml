@@ -88,3 +88,17 @@ services:
     environment:
       - PORT=3004
       - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=mongodb://${AUTH_MS_DB_USER}:${AUTH_MS_DB_PASSWORD}@auth-db/AuthDB
+    depends_on:
+      - auth-db
+
+  # ======================================================================
+  # Auth Microservice Database
+  # ======================================================================
+  auth-db:
+    image: mongo
+    volumes:
+      - ./auth/db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${AUTH_MS_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${AUTH_MS_DB_PASSWORD}
